@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>关于赋值和内存的问题</title>
+</head>
+
+<body>
+  <!--
+  问题: var a = xxx, a内存中到底保存的是什么?
+    * xxx是基本数据, 保存的就是这个数据
+    * xxx是对象, 保存的是对象的地址值
+    * xxx是一个变量, 保存的xxx的内存内容(可能是基本数据, 也可能是地址值)
+-->
+  <script type="text/javascript">
+    var num = 13
+    var num2 = num //值传递
+
+    var arr = [1, 2, 3]
+    var arr2 = arr //引用传递，数组是引用数据类型
+    arr2[1] = 234
+    console.log(arr)
+
+    var obj = { name: 'kobe' }
+    var obj2 = obj //引用传递
+
+
+  </script>
+</body>
+
+</html>

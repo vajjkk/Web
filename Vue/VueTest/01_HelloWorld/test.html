@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>01_HelloWorld</title>
+</head>
+
+<body>
+
+  <!--
+  1. 引入Vue.js
+  2. 创建Vue对象
+    el : 指定根element(选择器)
+    data : 初始化数据(页面可以访问)
+  3. 双向数据绑定 : v-model
+  4. 显示数据 : {{xxx}}  大括号表达式
+  5. 理解vue的mvvm实现
+      m:model(模型)对应着data,data基本的js对象可以存放属性数据，为view提供数据
+      view：视图就是模板页面，显示data数据
+      vm:视图模型，对应着view实例，ViewModel的实例才是管理者，管理两者之间的相互通信
+
+      model->view 称数据绑定，解析模板显示页面,vm来实现
+      view->model 事件监听，将视图里面最新的数据保存到model里面去
+
+    
+-->
+
+  <!--
+  模板 html+js 在html里面嵌套js代码
+
+    指令：指令属性的属性值是一个js表达式
+    插值：在标签体文本中使用{{}}包含一个表达式，自动显示对应的值
+-->
+  <div id="test">
+    <!-- v-model既显示了数据，还绑定了监听，甚至监听了最新的数据读取到data里面 -->
+    <input type="text" v-model="msg"><br>
+    <!--指令-->
+    <input type="text" v-model="msg">
+    <!--指令-->
+    <p>hello {{msg}}</p>
+    <!--大括号表达式-->
+  </div>
+
+  <p>{{msg}}</p>
+
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <script type="text/javascript">
+    //控制能否显示vue窗口
+    // Vue.config.devtools = false
+    const vm = new Vue({ //配置对象,vm是构造函数的实例
+      el: '#test', //element,它的值是选择器，用来找到页面中某个标签，指定模板的区域
+      data: { //为模板提供数据,这个data相当于以前那个state
+        msg: 'atguigu'
+      }
+    })
+
+
+
+    setTimeout(() => {
+      //msg在data里面，表面上是更新vm里面的值，但是实际上修改的是data数据代理
+      vm.msg = 'niaho '
+    }, 2000)
+  </script>
+</body>
+
+</html>

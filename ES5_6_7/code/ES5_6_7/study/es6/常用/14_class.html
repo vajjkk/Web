@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>12_class</title>
+</head>
+
+<body>
+</body>
+<!--
+1. 通过class定义类/实现类的继承
+2. 在类中通过constructor定义构造方法
+3. 通过new来创建类的实例
+4. 通过extends来实现类的继承
+5. 通过super调用父类的构造方法
+6. 重写从父类中继承的一般方法
+-->
+<script type="text/javascript">
+
+  function Person2() {
+    this.name = '1'
+  }
+  console.log(Person2.prototype);
+
+  // Person2.prototype.showMsg = function () {
+
+  // }
+
+  //给构造函数本身添加方法
+  Person2.showMsg = function () {
+
+  }
+
+
+  //1. 定义类
+  class Person {
+    //constructor 叫类的构造方法,用来生成实例(给实例本身添加，服务实例对象)
+    constructor(name, age) {
+      // 实例调用的constructor,属性和方法是放在实例身上
+      console.log('构造方法被调用了');
+      this.name = name
+      this.age = age
+    }
+
+    //类的一般方法，定义在实例对象的原型对象上(等同于上面把方法定义在原型对象上,给实例原型添加)
+    showMsg() { //谁调用我，我就打印他的属性
+      console.log(this.name, this.age);
+    }
+
+    //类的静态属性(方法),给类自身添加的属性
+    static test = function () {
+      console.log('类的静态方法');
+    }
+  }
+
+  // 给类本身添加方法
+  // Person.test=function(){
+
+  // }
+  // Person.test() 可以调用
+
+  let person1 = new Person()
+  let person2 = new Person()
+  person1.showMsg()
+  Person.test()
+
+  //子类的原型=父类的实例
+  class childPerson extends Person {
+    constructor(name, age, sex) {
+      //调用父类的构造方法,等同于前面借助构造函数继承
+      super(name, age)
+      this.sex = sex
+    }
+    showMsg() { //父类的方法重写，当父类的方法不能满足子类实例对象的需求的时候，在子类身上定义自己的方法，父类的方法重写
+      console.log(this.name, this.age, this.sex);
+    }
+  }
+  let child = new childPerson('张三', 18, '男')
+  // 如果父类的方法无法满足我们的需求
+  child.showMsg()
+
+  //构造函数本身只能给实例对象添加属性或者方法,批量生产实例数据
+  // 比如给原型添加方法就是 构造函数.prototype找到原型对象
+  // 给构造函数本身添加属性，那就是对象.属性
+
+
+  // constructor等同于构造函数，说明类是构造函数上层的一个封装，功能更多
+
+</script>
+
+</html>

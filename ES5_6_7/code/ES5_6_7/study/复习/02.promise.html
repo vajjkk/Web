@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 开两个定时器，要求第一个定时器执行完再执行第二个定时器
+
+        let flag = false
+
+        setTimeout(() => {
+            console.log('第一个定时器执行成功');
+            // setTimeout(() => {
+            //     console.log('第二个定时器执行成功');
+            // }, 2000)
+            flag = true
+        }, 2000)
+
+        //不会阻塞，所以flag是false
+        if (flag) {
+            setTimeout(() => {
+                console.log('第二个定时器执行成功');
+            }, 2000)
+        }
+    </script>
+</body>
+
+</html>

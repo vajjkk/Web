@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="demo">
+        <button @click='destory'>destory vue</button>
+        <p v-show="show">我很好，那么你呢</p>
+    </div>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script>
+        const vm=new Vue({
+            el: '#demo',
+            data() {
+                return {
+                    show: true
+                }
+            },
+            mounted() {
+                this.intervaeId = setInterval(() => {
+                    console.log('----');
+                    this.show = !this.show
+                }, 500);
+            },
+            beforeDestroy() {
+                clearInterval(this.intervaeId)
+            },
+            methods: {
+                destory() {
+                    this.$destory()
+                }
+            },
+
+        })
+    </script>
+</body>
+
+</html>

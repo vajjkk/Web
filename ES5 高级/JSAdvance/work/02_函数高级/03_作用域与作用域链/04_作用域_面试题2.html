@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>04_作用域_面试题2</title>
+</head>
+<body>
+<script type="text/javascript">
+  var fn = function () {
+    console.log(fn)
+  }
+  // 输出整个函数
+  fn()
+
+  var obj = {
+    fn2: function () {
+      // 先在内部作用域里面找，没有，再去外部作用域(全局)找，
+     console.log(fn2)
+    //  console.log(this.fn2)
+    //  console.log(fn);
+    }
+  }
+  obj.fn2()
+</script>
+</body>
+</html>

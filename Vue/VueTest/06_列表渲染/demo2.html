@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="demo">
+        <input type="text" placeholder="搜索指定用户名" v-model="searchName">
+        <ul>
+            <li v-for="(person, index) in filterPersons" :key="person.id">
+                {{index}}--{{person.name}}--{{person.age}}
+            </li>
+        </ul>
+        <button @click='sx'>年龄升序</button>
+        <button @click='jx'>年龄降序</button>
+        <button @click='or'>原本顺序</button>
+    </div>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#demo',
+            data() {
+                return {
+                    persons: [
+                        { id: 3, name: 'tom', age: 17 },
+                        { id: 4, name: 'nanc', age: 18 },
+                        { id: 5, name: 'mike', age: 19 },
+                        { id: 6, name: 'bili', age: 20 },
+                        { id: 7, name: 'cili', age: 21 }
+                    ],
+                    searchName: '',
+                }
+            },
+            computed: {
+                filterPersons() {
+                    const arr = this.persons.filter((person, index) => {
+                        return person.name.indexOf(this.searchName) >= 0
+                    })
+                    return arr
+                }
+            },
+            methods: {
+
+                sx() {
+                    this.persons = this.filterPersons.sort((person1, person2) => {
+                        return person1.age - person2.age
+                    })
+
+                },
+                jx() {
+                    this.persons = this.filterPersons.sort((person1, person2) => {
+                        return person2.age - person1.age
+                    })
+
+                },
+                or() {
+
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

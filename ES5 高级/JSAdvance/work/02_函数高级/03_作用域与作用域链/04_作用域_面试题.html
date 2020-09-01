@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>04_作用域_面试题</title>
+</head>
+<body>
+<script type="text/javascript">
+  var x = 10;
+  function fn() {
+    console.log(x);
+  }
+ 
+  function show(f) {
+    var x = 20;
+    f();
+  }
+  show(fn);
+
+  //作用域在定义函数的时候就确定了  fn x里面没有就去外面找
+
+
+</script>
+</body>
+</html>

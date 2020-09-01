@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="demo">
+        <h1>1.双大括号表达式，插值需要写在标签体里面</h1>
+        <p>{{msg.toUpperCase()}}</p>
+        <p>{{msg.toLowerCase()}}</p>
+        <p>{{ok?1:2}}</p>
+
+        <h1>2.指令一：强制数据绑定，让属性值从静态值变为动态值</h1>
+        <a href="url">去学习</a>
+        <a v-bind:href="url">去学习</a>
+        <a :href="url">去学习</a>
+
+        <h1>3.指令二：绑定事件监听</h1>
+        <button @click='test1'>test1</button>
+        <button @click='test2'>test2</button>
+        <button @click='test3("abc")'>test3</button>
+    </div>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script>
+        Vue.config.devtools = false
+        const vm = new Vue({
+            el: "#demo",
+            data() {
+                return {
+                    msg: 'NBA I love this game',
+                    url: 'http://www.baidu.com',
+                    ok: 1
+                }
+            },
+            methods: {
+                test1(event) {
+                    alert(event.target.innerHTML)
+                },
+                test2(event) {
+                    alert(event.target.textContent)
+                },
+                test3(msg) {
+                    alert(msg)
+                }
+            },
+        })
+
+        setTimeout(() => {
+            vm.url = 'http://huya.com'
+        }, 3000)
+    </script>
+</body>
+
+</html>

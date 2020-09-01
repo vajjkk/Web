@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>06_列表渲染</title>
+</head>
+
+<body>
+
+
+  <!--
+    1. 列表显示
+      数组: v-for / index
+      对象: v-for / key
+    2. 列表的更新显示
+      删除item
+      替换item
+  -->
+
+  <div id="demo">
+    <h2>测试: v-for 遍历数组</h2>
+    <ul>
+      <li v-for="(person, index) in persons" :key="person.id">
+        {{index}}---{{person.id}}---{{person.name}}---{{person.age}}
+        <!-- 不传参数不知道传的是哪一个,运用下标删除更好 -->
+        ---<button @click='deleteP(index)'>删除</button>
+        ---<button @click='updateP(index,{id:Date.now(),name:"小王",age:18})'>更新</button>
+      </li>
+    </ul>
+
+
+    <h2>测试: v-for 遍历对象</h2>
+    <ul>
+      <li v-for="(value, key) in persons[1]" :key="key">
+        {{key}}:&nbsp;&nbsp;{{value}}
+      </li>
+    </ul>
+
+
+
+  </div>
+
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <script type="text/javascript">
+    /* 
+    data对象中：
+        所有层次的属性都有set监视(数组除外)
+        如果data中的属性值是数组：
+          重写数组更新的方法：
+            调用原本的方法更新数组，然后更新界面
+        
+          要求：我们要想通过更新数组来更新界面：调用数组更新的方法，而不能直接通过下标来更新
+    */
+    new Vue({
+      el: '#demo',
+      data() {
+        return {
+          persons: [
+            { id: 3, name: 'tom', age: 15 },
+            { id: 4, name: 'nanc', age: 16 },
+            { id: 5, name: 'mike', age: 17 },
+            { id: 6, name: 'bili', age: 18 },
+            { id: 7, name: 'cili', age: 19 }
+          ]
+        }
+      },
+      methods: {
+        deleteP(index) {
+          // 删除persons指定index的person
+          this.persons.splice(index, 1)
+        },
+        updateP(index, newP) {
+          // 改变了数组内部属性，但是数组内部属性没有set监视
+          // 数组内部数据如何监视？不是用set监视，而是重写了变化数组方法，然后更新界面
+
+          //数组变了，但是没更新界面，没set监视
+          //1：this.persons[index]=newP
+
+          // 调用是数组重写方法
+          this.persons.splice(index, 1, newP)
+
+
+
+          // data中所有层次的属性都有set监视(数组除外)
+          // 对象中的属性有set监视，所以可以
+          //3 ：const p = this.persons[index]
+          // p.id = newP.id
+          // p.name = newP.name
+          // p.age = newP.age
+
+        },
+      },
+
+    })
+  </script>
+</body>
+
+</html>

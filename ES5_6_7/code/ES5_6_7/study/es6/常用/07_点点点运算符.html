@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>07_3点运算符</title>
+</head>
+
+<body>
+  <!--
+* 用途
+1. rest(可变)参数
+    * 用来取代arguments 但比 arguments 灵活,只能是最后部分形参参数
+    function fun(...values) {
+        console.log(arguments);
+        arguments.forEach(function (item, index) {
+            console.log(item, index);
+        });
+        console.log(values);
+        values.forEach(function (item, index) {
+            console.log(item, index);
+        })
+    }
+    fun(1,2,3);
+2. 扩展运算符
+  let arr1 = [1,3,5];
+  let arr2 = [2,...arr1,6];
+  arr2.push(...arr1);
+-->
+  <script type="text/javascript">
+    // function fun(arguments) {
+    //   //arguments是伪数组，没有数组的一般方法
+    //   console.log(arguments)
+    //   arguments.forEach(item, index => {  不可以用
+    //     console.log(item, index);
+    //   });
+    // }
+
+
+    // function fun(...value) {
+    //   console.log(arguments)
+    //   console.log(value) //收集实参的数组，但是是一个真数组
+    //   value.forEach((item, index) => {
+    //     console.log(item, index);
+    //   });
+    // }
+
+
+
+    //rest 参数
+    // 第一个值给name，剩下来的值给value
+    function fun(name, ...value) {
+      // function fun(name, ...value,age)  报错，必须是最后一个参数
+      console.log(arguments)
+      console.log(value) //收集实参的数组，但是是一个真数组
+      value.forEach((item, index) => {
+        console.log(item, index);
+      });
+
+      fun('kobe', 43, '男')
+    }
+
+    // 扩展运算符
+    // 需求；合并数组,第一个数组放在第二个数组中间
+    let arr = [2, 3, 4]
+    let ar2 = [1, 5]
+    // 方法一：
+    console.log(arr.concat(arr2))
+
+    // 方法二：三点运算符一定是遍历了数组里面的每一项，所以才可以取到这些数
+    arr2 = [1, ...arr, 5]
+
+
+
+    let obj = {
+      name: 'kobe',
+      age: 43
+    }
+    console.log(...obj)  //不可以使用三点运算符遍历对象
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>06_列表渲染_过滤与排序</title>
+</head>
+
+<body>
+  <!--
+    1. 列表过滤
+    2. 列表排序
+  -->
+
+  <div id="demo">
+    <input type="text" placeholder="搜索指定用户名" v-model="searchName">
+    <ul>
+      <!-- 我们应该遍历显示过滤后的数组，因为如果遍历的是原数组，那么就回不去了,依赖的数据是总数组和输入内容-->
+      <li v-for="(person, index) in filterPersons" :key="person.id">
+        {{index}}--{{person.name}}--{{person.age}}
+      </li>
+    </ul>
+
+    <button @click='orderType==1'>年龄升序</button>
+    <button @click='orderType==2'>年龄降序</button>
+    <button @click='orderType==0'>原本顺序</button>
+
+  </div>
+
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <script type="text/javascript">
+    new Vue({
+      el: '#demo',
+      data() {
+        return {
+          persons: [
+            { id: 1, name: 'Tom', age: 13 },
+            { id: 2, name: 'Jack', age: 14 },
+            { id: 3, name: 'Bob', age: 15 },
+            { id: 4, name: 'Cat', age: 16 },
+            { id: 5, name: 'Mike', age: 17 },
+            { id: 6, name: 'Monica', age: 18 }
+          ],
+          searchName: '', //搜索关键字
+          orderType: 0, //排序类型 0：原本顺序 ，1：升序 ，2：降序
+        }
+      },
+      computed: {
+        filterPersons() {
+          // 1.取出相关的数据
+          const { persons, searchName, orderType } = this
+
+          // 2.计算处理数据生成一个新的数据，并返回，fuo
+          const arr = persons.filter((p, index) => {
+            // 看p里面是否包含searchName,不等于-1可以写成大于等于0
+            return p.name.indexOf(searchName) !== -1
+          })
+
+          // 进行排序处理,满足一定条件再排序,排序用到sort
+          if (orderType !== 0) {
+            if (orderType === 1) {
+              // 拿出两个值进行比较
+              arr.sort((p1, p2) => { //降序
+                // 如果大于0，就把p2放左边 p1放右边就是降序，如果小于0就把p1放左边，p2放右边
+                return p2.age - p1.age
+              })
+            } else {
+              arr.sort((p1, p2) => {//升序
+                // 结果大于0,右边的值放到左边来
+                return p1.age - p2.age
+              })
+            }
+          }
+
+
+          // 3.返回它
+          return arr
+        }
+
+      },
+      methods: {
+        // 点击按钮不是亲自去调，而是改变依赖数据，触发事件
+        ascending() {
+
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>

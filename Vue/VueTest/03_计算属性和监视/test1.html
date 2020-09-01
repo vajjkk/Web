@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03计算属性和监视</title>
+</head>
+
+<body>
+    <!--
+        1. 计算属性
+        在computed属性对象中定义计算属性的方法
+        在页面中使用{{方法名}}来显示计算的结果
+        2. 监视属性:
+        通过通过vm对象的$watch()或watch配置来监视指定的属性
+        当属性变化时, 回调函数自动调用, 在函数内部进行计算
+        3. 计算属性高级:
+        通过getter/setter实现对属性数据的显示和监视
+        计算属性存在缓存, 多次读取只执行一次getter计算
+    -->
+    <div id="demo">
+        姓: <input type="text" placeholder="First Name" v-model="firstName"><br>
+        名: <input type="text" placeholder="Last Name" v-model="lastName"><br>
+        <!--fullName1是根据fistName和lastName计算产生-->
+        姓名1(单向): <input type="text" placeholder="Full Name1" v-model="fullName1"><br>
+        姓名2(单向): <input type="text" placeholder="Full Name2" v-model="fullName2"><br>
+        姓名3(双向): <input type="text" placeholder="Full Name3" v-model="fullName3"><br>
+
+        <p>{{fullName1}}</p>
+        <p>{{fullName1}}</p>
+        <p>{{fullName1}}</p>
+        <p>{{fullName1}}</p>
+
+
+        <p>{{fullName2}}</p>
+        <p>{{fullName2}}</p>
+        <p>{{fullName2}}</p>
+        <p>{{fullName2}}</p>
+
+        
+        
+        <!-- 缓存的容器用,属性值修改调用set函数就会缓存到容器当中 -->
+        {
+            fullName1:'A-B',
+            fullName2:'A-B'
+        }
+
+
+    </div>
+    <!-- 
+        1.什么时候向缓存中添加计算属性值？
+            只要有新的计算属性值产生
+        2.计算属性的get()返回一个新得值，会不会调用set()
+            不会，set()是主动修改，①：get调用，产生新值 ②：手动给一个新的值
+            set什么时候调？主动改了属性的值，get修改产生新的值不会调用set
+     -->
+    <script src="../js/vue.js"></script>
+    <script>
+        const vm = new Vue({
+            el: "#demo",
+            data() {
+                return {
+                    firstName: 'A',
+                    lastName: 'B',
+                    // fullName1:'A-B'
+                    fullName2: 'A-B',
+
+                }
+            },
+            computed: { //计算属性也是属性
+                fullName1() { //相当于getter
+                    console.log(this); //Vue类型的实例，也就是vm
+                    console.log('fullName1()');
+                    //去data里面找
+                    return this.firstName + '-' + this.lastName
+                },
+                fullName3: {
+                    /* 
+                    计算属性get调用时机：
+                        1.初始显示第一次调用
+                        2.依赖的数据发生了任何改变都会重新调用
+                    
+                    计算属性set调用时机：
+                        当前属性值发生改变
+                    */
+                    //监视属性
+                    set(value) {
+                        console.log('fullName3 set()', value);
+                        const names = value.split('-')
+                        this.firstName = names[0]
+                        this.lastName = names[1]
+                    },
+                    get() {
+                        console.log('fullName3() get()');
+                        return this.firstName + '-' + this.lastName
+                    }
+                }
+            },
+            // 监视 watch 
+            watch: {
+                // firstName:(newValue,oldValue)=>{
+
+                // }
+                //监视firstName
+                firstName(value) { //firstName的值变化了
+                    this.fullName2 = value + '-' + this.lastName
+                }
+            }
+        })
+
+
+        // 监视lastName
+        vm.$watch("lastName", function (value) { //这边箭头函数没有自己的this，这个this是window
+            console.log('lastName', value);
+            this.fullName2 = this.firstName + '-' + value
+        })
+
+        // console.log('vm', vm); //Vue对象,vm里面有一些属性本来这些属性（包括计算属性）是在data里面的，但是现在我也有了
+        // vm.firstName='C'
+
+
+        /*
+        Vue控制的所有回调函数this都是vm/组件对象
+        模板读取的都是vm的属性，只是vm的值都是取data里面的
+        配置对象的所有属性都叫配置，是可选可不选的
+        生命周期函数就是生命周期钩子
+        vm.$xxx是实例对象   Vue.xxx是函数对象
+        vue的计算属性是有缓存的
+
+        数据存在对象里面是以key-value形式
+
+
+        */
+
+
+        // 将函数执行结果缓存
+        // let result=fun()
+        // console.log(result);
+    </script>
+</body>
+
+</html>

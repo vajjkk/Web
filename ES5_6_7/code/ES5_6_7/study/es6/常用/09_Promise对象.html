@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>11_Promise对象</title>
+</head>
+
+<body>
+  <!--
+1. 理解:
+  * Promise对象: 代表了未来某个将要发生的事件(通常是一个异步操作)
+  * 有了promise对象, 可以将异步操作以同步的流程表达出来, 避免了层层嵌套的回调函数(俗称'回调地狱')
+  * ES6的Promise是一个构造函数, 用来生成promise实例
+2. 使用promise基本步骤(2步):
+  * 1.创建promise对象
+    let promise = new Promise((resolve, reject) => {
+        //2.初始化promise状态为 pending
+      //执行异步操作
+      if(异步操作成功) {
+        resolve(value);//修改promise的状态为fullfilled
+      } else {
+        reject(errMsg);//修改promise的状态为rejected
+      }
+    })
+  * 调用promise的then()
+    promise.then(function(
+      result => console.log(result),
+      errorMsg => alert(errorMsg)
+    ))
+3. promise对象的3个状态
+  * pending: 初始化状态
+  * fullfilled: 成功状态
+  * rejected: 失败状态
+4. 应用:
+  * 使用promise实现超时处理
+
+  * 使用promise封装处理ajax请求
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+    }
+    request.responseType = 'json';
+    request.open("GET", url);
+    request.send();
+
+    promise对象：
+      1.作用：解决异步回调
+      2.语法：
+        1.创建promise实例对象，---初始化promise对象状态为pending
+        2.执行异步任务：开启定时器，发送ajax请求
+        3.根据异步任务执行的结果动态修改promise对象的状态：resolve()成功 reject()失败
+        4.promise对象默认有then方法，该方法需要两个参数，这两个参数是回调函数
+        5.当promise对象状态变成成功||失败的时候会自动调用then 当中的回调
+-->
+
+  <script type="text/javascript">
+    console.log('1.code starting');
+    setTimeout(() => {
+      console.log('4,定时器执行');
+    }, 0);
+
+    let promise = new Promise((resolve, reject) => {
+      // 1. 初始化promise状态为pending --->初始化状态
+      console.log('2.初始化状态')
+
+      // 2. 执行异步任务：开启定时器，发送ajax请求
+      // 补充：根据异步任务的执行结果来去修改promise对象状态
+      setTimeout(() => {
+
+        let msg = 'haha'
+
+        // 如果异步任务成功，修改promise对象的状态为成功状态 --->fullfilled
+        resolve(msg) //修改状态为成功状态
+        // console.log(promise);
+
+        // 如果异步任务失败，修改promise对象的状态为失败状态 --->reject
+        // reject()
+        // console.log(promise);
+      }, 2000)
+    })
+
+    promise.then(
+      (msg) => {
+        console.log(msg) // 当promise对象的状态为成功状态，会自动调用then方法第一个回调
+      }, () => {
+        console.log('失败') // 当promise对象的状态为失败状态，会自动调用then方法第二个回调
+      }
+    )
+
+
+    let num = 0
+    function util() {
+      num++
+      let promise = new Promise((resolve, reject) => {
+        // 执行异步任务
+        setTimeout(() => {
+          resolve(`第${num}次异步任务执行成功`)
+        }, 2000)
+      })
+
+      return promise
+    }
+
+
+    //promise可以链式调用,默认返回promise实例对象，而且默认值是成功
+    util()
+      .then((result) => {
+        console.log(result)
+        // if (result) {
+        //   //执行第二次异步任务
+        //   return util()
+        // }
+      }, (error) => {
+      })
+      .then((result) => {
+        console.log(result);
+      }, (error) => {
+        console.log(error);
+      })
+
+  </script>
+
+</body>
+
+</html>

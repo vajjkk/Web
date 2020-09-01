@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<!--
+ejs常用的三种语法
+    第一种：< % xxx % >
+            xxx可以替换为任意的js代码,不会输出内容到浏览器,但是会输出到浏览器
+
+    第二种：< % - xxxx % >
+            xxx可以替换为任意的js变量,渲染标签，不好万一渲染的是script标签，存在安全问题
+
+    第三种：< % = xxxx % >
+            xxx可以替换为任意的js变量，不渲染标签
+-->
+<div>
+
+    <% for (var i = 0; i < data.length; i++) { %>
+    <ul>
+        <li>姓名：<%= data[i].name %></li>
+        <li>年龄：<%= data[i].age %></li>
+    </ul>
+    <% } %>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>02_关于引用变量赋值问题</title>
+</head>
+<body>
+<!--
+关于引用变量赋值问题
+  * 2个引用变量指向同一个对象, 通过一个变量修改对象内部数据, 其他所有变量看到的是修改之后的数据
+  * 2个引用变量指向同一个对象, 让其中一个引用变量指向另一个对象, 另一引用变量依然指向前一个对象
+-->
+<script type="text/javascript">
+  var obj1 = {name: 'Tom'}
+  var obj2 = obj1
+  obj2.age = 12
+  console.log(obj1.age)  // 12
+  function fn (obj) {
+    // 给原有对象设置属性
+    obj.name = 'A'
+  }
+  fn(obj1)
+  // 三个引用变量指向同一个对象
+  console.log(obj2.name) //A
+
+
+  var a = {age: 12}
+  var b = a
+  a = {name: 'BOB', age: 13}
+  b.age = 14
+  console.log(b.age, a.name, a.age) // 14 Bob 13
+
+  function fn2 (obj) {
+    // a和obj指向同一个对象，但是这边是等于不是. 相当于又创建了一个对象
+    // 修改引用变量值,等号就是给变量重新赋值,所以这个对象就没了
+    // obj等于了创建了一个新的对象
+    obj = {age: 15}
+  }
+  fn2(a)
+
+  console.log(a.age) //13
+
+
+
+
+</script>
+</body>
+</html>

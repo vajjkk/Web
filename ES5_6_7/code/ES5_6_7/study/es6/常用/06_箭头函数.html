@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>06_箭头函数</title>
+
+</head>
+
+<body>
+  <button id="btn1">测试箭头函数this_1</button>
+  <button id="btn2">测试箭头函数this_2</button>
+
+
+
+  <!--
+    
+  箭头函数(this问题)、promise对象，async:面试重点
+
+* 作用: 定义匿名函数
+* 基本语法:
+  * 没有参数: () => console.log('xxxx')
+  * 一个参数: i => i+2
+  * 大于一个参数: (i,j) => i+j
+  * 函数体不用大括号: 默认返回结果
+  * 函数体如果有多个语句, 需要用{}包围，若有需要返回的内容，需要手动返回
+* 使用场景: 多用来定义回调函数
+
+* 箭头函数的特点：
+    1、简洁
+    2、箭头函数没有自己的this，箭头函数的this不是调用的时候决定的，而是在定义的时候处在的对象就是它的this
+    3、扩展理解： 箭头函数的this看外层的是否有函数，
+        如果有，外层函数的this就是内部箭头函数的this，
+        如果没有，则this是window。
+-->
+  <script type="text/javascript">
+    // function fun() {
+    //   console.log('fun()');
+    // }
+    // fun()
+
+
+    //箭头函数
+    let fun = () => { }
+    fun()
+
+
+    // 形参的位置
+    // 1.没有形参的情况，()不能省略
+    // let fun = () => {
+    //   console.log('fun()')
+    // }
+    // 2.当只有一个形参,()可以省略
+    let fun1 = a => {
+      console.log(a)
+    }
+    fun1('fun1()')
+
+    //3.当有多个形参的情况,()不可以省略
+    let fun2 = (a, b, c) => {
+      console.log(a, b, c)
+    }
+    fun2('fun2()', '()不可以省略')
+
+
+    //箭头右边  ---> 函数体
+    // 1.当函数只有一条语句或者表达式的时候，{}可以省略，省略的话会自动返回当前语句或者表达式的结果
+    // 补充说明；如果大括号不省略，需要手动指定返回值，如果不指定默认返回undefined
+    // 语句：以分号结尾，而且该语句是可以执行的
+    let fun3 = () => console.log('fun()')
+    let fun5 = () => {
+      return 3
+    }
+
+    // 2.当函数体有多条语句或者表达式的时候，{}不可以省略
+    let fun4 = () => {
+      console.log('fun4()');
+      console.log('第二条语句');
+    }
+
+
+
+    //this
+    let btn1 = document.getElementsById('btn1')
+    let btn2 = document.getElementsById('btn2')
+
+    btn1.onclick = function () {
+      console.log(this); //window
+    }
+
+
+    // let obj = {
+    //   name: 'kobe',
+    //   getName() {
+    //     btn2.onclick = () => {
+    //       console.log(this) //obj
+    //     }
+    //   }
+    // }
+    let obj = {
+      name: 'kobe',
+      getName: () => {
+        btn2.onclick = () => {
+          console.log(this) //obj
+        }
+      }
+    }
+    obj.getName()
+
+    let fun6 = () => {
+      console.log(this)
+    }
+    let obj6 = {
+      username: 'kobe'
+    }
+    fun6.call(obj6)
+
+    // call和apply、bind无法修改箭头函数里面的this,call和apply在调用的时候决定，而箭头函数在定义的时候决定，固定了
+  </script>
+
+</body>
+
+</html>

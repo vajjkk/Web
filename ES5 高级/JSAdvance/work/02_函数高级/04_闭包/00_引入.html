@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>00_引入</title>
+</head>
+<body>
+
+<button>测试1</button>
+<button>测试2</button>
+<button>测试3</button>
+<!--
+需求: 点击某个按钮, 提示"点击的是第n个按钮"
+-->
+<script type="text/javascript">
+  var btns = document.getElementsByTagName('button')
+  //遍历加监听
+  /*
+  btns.length是一个伪数组，而且.length每一次都需要计算，而不是固定的
+  i是一个全局变量，因为局部变量在一个函数里面
+  for (var i = 0,length=btns.length; i < length; i++) {
+    var btn = btns[i]
+    btn.onclick = function () {
+      alert('第'+(i+1)+'个')
+    }
+  }*/
+  /*
+  for (var i = 0,length=btns.length; i < length; i++) {
+    var btn = btns[i]
+    //将btn所对应的下标保存在btn上
+    btn.index = i
+    btn.onclick = function () {
+      alert('第'+(this.index+1)+'个')
+    }
+  }*/
+
+  //利用闭包
+  // for 循环里面的i是全局变量，匿名函数自调用里面的i是局部变量 不冲突，但是最后括号里面的(i)读的是全局的i,btns[i]读的是局部的i
+  for (var i = 0,length=btns.length; i < length; i++) {
+    (function (j) {
+      var btn = btns[j]
+      btn.onclick = function () {
+        alert('第'+(j+1)+'个')
+      }
+    })(i)
+  }
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>02_模板语法</title>
+</head>
+
+<body>
+  <!--
+    1. 模板的理解:
+      动态的html页面
+      包含了一些JS语法代码
+        大括号表达式
+        指令(以v-开头的自定义标签属性)
+    2. 双大括号表达式
+      语法: {{exp}} 或 {{{exp}}}
+      功能: 向页面输出数据
+      可以调用对象的方法
+    3. 指令一: 强制数据绑定
+      功能: 指定变化的属性值
+      完整写法:
+        v-bind:xxx='yyy'  //yyy会作为表达式解析执行
+      简洁写法:
+        :xxx='yyy'
+    4. 指令二: 绑定事件监听
+      功能: 绑定指定事件名的回调函数
+      完整写法:
+        v-on:click='xxx'
+      简洁写法:
+        @click='xxx'
+  -->
+
+  <div id="app">
+    <h2>1. 双大括号表达式(插值,要写在标签体里面)</h2>
+    <!-- 大括号里面写的只能是js表达式 -->
+    <!-- 语句是一句完整的命令要去做什么事，表达式是语句的组成部分-->
+    <!-- 简单来说表达式就是给你个结果，语句就是叫你去做一件事，表达式是一件事情的一部分 -->
+    <p>{{msg}}</p>
+    <p>{{msg.toUpperCase()}}</p>
+    <p>{{ok?1:2}}</p>
+
+    <h2>2. 指令一: 强制数据绑定，让属性值从静态的值改为动态的值</h2>
+    <a href='url'>去学习</a>
+    <br>
+    <a v-bind:href='url'>去学习</a>
+    <!-- 将静态值改为动态的值 -->
+    <a :href='url'>去学习</a>
+
+
+
+    <h2>3. 指令二: 绑定事件监听</h2>
+    <!-- 当绑定了监听以后引号里面的东西其实就是表达式了 -->
+    <button v-on:click='test1'>test1</button>
+    <button @click='test1'>test2</button>
+    <!-- 传递参数 -->
+    <button @click='test2("abc")'>test3</button>
+
+
+  </div>
+
+
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <script type="text/javascript">
+    const vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          msg: 'NBA I LOVE This Game!',
+          ok: true,
+          url: 'http://www.huya.com'
+        }
+      },
+      methods: {
+        // 事件回调函数都有event
+        test1(event){
+          //得到标签体文本，可以是innerHTML也可以是textContent
+          alert(event.target.innerHTML)
+        },
+        
+        test2(msg){
+          //得到标签体文本，可以是innerHTML也可以是textContent
+          alert(msg)
+        },
+      },
+    })
+
+    setTimeout(() => {
+      vm.url = 'http://yahoo.com'
+    }, 2000);
+  </script>
+</body>
+
+</html>

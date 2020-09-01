@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>03_Object扩展</title>
+</head>
+
+<body>
+  <!--
+ES5给Object扩展了一些静态方法, 常用的2个:
+1. Object.create(prototype, [descriptors]) 
+  * 作用: 以指定对象为原型创建新的对象，有返回值
+  * 为新的对象指定新的属性, 并对属性进行描述
+    - value : 指定值
+    - writable : 标识当前属性值是否是可修改的, 默认为false
+    - configurable: 标识当前属性是否可以被删除 默认为false
+    - enumerable： 标识当前属性是否能用for in 枚举 默认为false
+2. Object.defineProperties(object, descriptors)
+  * 作用: 为指定对象定义扩展多个属性，没返回值
+    * get ：用来获取当前属性值得回调函数
+    * set ：修改当前属性值得触发的回调函数，并且实参即为修改后的值
+   * 存取器属性：setter,getter一个用来存值，一个用来取值
+-->
+  <script type="text/javascript">
+
+    // 看给本身用还是实例用
+    // 给本身用就是构造函数.xxx 给实例用就是构造函数.prototype.xxx
+    var obj = {
+      name: 'kobe',
+      age: 42,
+      setName: function () {
+        this.name = 'wade'
+      }
+    }
+
+    var obj2 = {}
+    // 让obj成为obj2的原型对象
+    obj2 = Object.create(obj, {
+      sex: { //配置对象
+        value: '男',
+        writable: false,
+        configurable: true,
+        enumerable: false
+      }
+    })
+    console.log(obj2, obj2.sex)
+    obj2.sex = '女'
+    console.log(obj2)
+    // delete obj2.sex
+
+
+    console.log('-------------------')
+
+    function Person(name, age) {
+      this.name = name
+      this.age = age
+    }
+
+    var test = new Person('kobe', 12)
+    //for in 可以枚举对象的属性，同时可以枚举对象原型上面的属性
+    for (const i in test) {
+      if (test.hasOwnProperty(i)) {
+        console.log(i);
+
+      }
+    }
+
+
+    // Object.defineProperties(object, descriptors) 为指定对象扩展多个属性
+    var obj3 = {
+      name: 'kobe',
+      age: 43
+    }
+
+    // var sex = '男'
+    // Object.defineProperties(obj3, {
+    //   sex: {
+    //     get: function () { //设置值,当获取扩展属性值的时候get自动调用
+    //       console.log('get()' + this)
+    //       return sex
+    //     },
+    //     set(value) { //当修改扩展的属性值，set自动调用
+    //       console.log('set调用', value, this);
+    //       // this.sex = value
+    //     }
+    //   }
+    // })
+    // console.log(obj3);
+    // // 不允许直接修改
+    // obj3.sex = '女'
+    // console.log(obj3.sex)
+
+
+
+
+    Object.defineProperty(obj3, 'sex', {
+
+      get: function () { //设置值,当获取扩展属性值的时候get自动调用
+        console.log('get()' + this)
+        return sex
+      },
+      set(value) { // 监视扩展属性的变化当修改扩展的属性值，set自动调用
+        console.log('set调用', value, this);
+        // this.sex = value
+      }
+    })
+
+    console.log(obj3);
+    obj3.sex = '女'
+    console.log(obj3.sex)
+
+
+
+  </script>
+</body>
+
+</html>
